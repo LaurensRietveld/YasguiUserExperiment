@@ -65,7 +65,7 @@ function displayQuestion(questionId, questionObj) {
 	$("#question").html("").append("<h1>" + questionObj.title + "</h1>").append(question);
 	if (questionObj.iframeLink != null) {
 		//append question id to url
-		$("#yasguiIframe").attr("src", questionObj.iframeLink + "?uid=" + questionId).show() + "&questionId=" + questionId;
+		$("#yasguiIframe").attr("src", questionObj.iframeLink + "?uid=" + getUid() +  "&questionId=" + questionId).show();
 	} else {
 		$("#yasguiIframe").hide();
 	}
