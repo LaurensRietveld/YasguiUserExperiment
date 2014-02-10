@@ -1,4 +1,16 @@
 html, body{
-min-height: 100%;	
-margin:0px;padding:0px;
+	min-height: 100%;	
+	margin:0px;padding:0px;
+}
+
+#nextButton{
+	position:fixed;
+	top: 0px;
+	right:0px;
+}
+#prevButton{
+	position:fixed;
+	z-index: 999999;
+	top: 0px;
+	left:0px;
 }
