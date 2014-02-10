@@ -4,14 +4,18 @@
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 $logMsg = file_get_contents('php://input');
-echo $logMsg;
+//echo $logMsg;
 $decodedMsg = json_decode($logMsg, true);
-var_export($decodedMsg);
+//var_export($decodedMsg);
 
 $logString = time()." ".$logMsg."\n";
 $logFile = $decodedMsg['uid'].".log";
 
-var_export($logFile);
-var_export($logString);
 
-file_put_contents($logFile, $logString, FILE_APPEND);
+$result = file_put_contents($logFile, $logString, FILE_APPEND);
+if ($result === false) {
+	echo "FAILED WRITING TO LOG FILE!!\n";
+	echo "logString: ".$logString."\n";
+	echo "logFile: ".$logFile."\n";
+
+}
