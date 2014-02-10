@@ -1,5 +1,6 @@
 var timer = new Date();
-var loggerUrl = "http://localhost/code/yasguiUserExperiment/logger.php";
+//var loggerUrl = "http://localhost/code/yasguiUserExperiment/logger.php";
+var loggerUrl = "logger.php";
 var yasguiUrl = "http://doc.metalex.eu:8080/yasgui/";
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
