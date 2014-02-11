@@ -1,5 +1,5 @@
 var loggerUrl = "logger.php";
-var yasguiUrl = "http://doc.metalex.eu:8080/yasgui/";
+var yasguiUrl = "http://doc.metalex.eu:8080/yasgui/?experiment=1";
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
              .toString(16)
@@ -61,20 +61,61 @@ function displayQuestion(questionId, questionObj) {
 	updateButtons(questionId);
 	console.log(questionObj);
 	var question = $("<p></p>").html(questionObj.question);
-	$("#question").html("").append("<h1>" + questionObj.title + "</h1>").append(question);
+	var title = "Exercise";
+	if (questionObj.title) {
+		title = questionObj.title;
+	} else {
+		title += " " + questionId;
+	}
+	$("#question").html("").append("<h1>" + title + "</h1>").append(question);
 	$("#answer").html("");
 	if (questionObj.displayHook != null) {
 		questionObj.displayHook();
 	} 
 	if (questionObj.iframeLink != null) {
 		//append question id to url
-		$("#yasguiIframe").attr("src", questionObj.iframeLink + "?uid=" + getUid() +  "&questionId=" + questionId).show();
+		$("#yasguiIframe").attr("src", questionObj.iframeLink + "&uid=" + getUid() +  "&questionId=" + questionId).show();
 	} else {
 		$("#yasguiIframe").hide();
 	}
 }
+function shuffle(array) {
+  var currentIndex = array.length
+    , temporaryValue
+    , randomIndex
+    ;
 
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
 
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+var createQuestionOrdering = function() {
+	for (var i = 1; i < (questions.length - 1); i++) {
+		questionOrdering.push(i);
+	}
+	questionOrdering = shuffle(questionOrdering);
+	questionOrdering.push(question.length - 1);//final page at end!
+	questionOrdering.unshift(0);//start page at beginning!
+	
+	/**
+	 * 
+	 * TODO: we don't want communication question as first question
+	 * 
+	 */
+//	if (questions[questionOrdering[1]].)
+}
+var questionOrdering = [];
 
 var questions = [
 	{
@@ -83,18 +124,17 @@ var questions = [
 				"Having trouble understanding something? Let us know!",
 	},
 	{
-		title: "Exercise 1",
-		question: "Try to query this endpoint to discover what it is about, and propose an interesting application to run on top of this endpoint",
+//		question: "Find out which domains (classes) the dataset covers, and describe how some of them might be used for the application you proposed for Assignment 1. Hint: The dataset is much broader than the domains covered in the previous exercises",
+		question: "Browse a number of endpoints in the interface below, en describe which datasets are interesting for Assignment 1 and why",
 		displayHook: function() {
 			$("#answer").append("<h3>Answer</h3><textarea style='width: 100%; height: 200px;'></textarea>");
 		},
 		answerGetVal: function() {
 			return $("#answer").find("textarea").val();
 		},
-		iframeLink: yasguiUrl
+		iframeLink: yasguiUrl + '&jsonSettings=%7B%0A"enabledFeatures"%3A+%7B%0A"endpointSelection"%3A+true%0A%7D%0A%7D'
 	},
 	{
-		title: "Exercise 2",
 		question: "Find all possible information about the state of California. You can give a short textual summary of your results below.",
 		displayHook: function() {
 			$("#answer").append("<h3>Answer</h3><textarea style='width: 100%; height: 200px;'></textarea>");
@@ -105,7 +145,6 @@ var questions = [
 		iframeLink: yasguiUrl
 	},
 	{
-		title: "Exercise 3",
 		question: "Is the following statement correct? 'The population of London is bigger than the population of Paris'",
 		displayHook: function() {
 			$("#answer").append("<h3>Answer</h3> <select>" +
@@ -120,7 +159,6 @@ var questions = [
 		iframeLink: yasguiUrl
 	},
 	{
-		title: "Exercise 4",
 		question: "Which movie has been the most expensive one to make?",
 		displayHook: function() {
 			$("#answer").append("<h3>Answer</h3><input type='text'></input>");
@@ -131,7 +169,6 @@ var questions = [
 		iframeLink: yasguiUrl
 	},
 	{
-		title: "Exercise 5",
 		question: "Provide a list of -triples-, where you extend information about the VU University, with information about this IWA course.",
 		displayHook: function() {
 			$("#answer").append("<h3>Answer</h3><textarea style='width: 100%; height: 200px;'></textarea>");
@@ -187,7 +224,7 @@ function trackTask(buttonClicked) {
 	});
 }
 
-$( document ).ready(function() {
+$(document).ready(function() {
 	$("#userIdHiddenDiv").html(getUid());
 	$("#nextButton").on("click", function(){
 		trackTask("next");
