@@ -25,3 +25,11 @@ html, body{
 #question{
 	margin-top:50px;
 }
+#cheatSheet{
+	position:fixed;
+	z-index: 999999;
+	top: 0px;
+	left:150px;
+	background-color:white;
+	font-size: 80%;
+}
