@@ -173,7 +173,6 @@ function getQuestionOrdering() {
 	} else {
 		questionOrderObj = jQuery.parseJSON(questionOrderString);
 	}
-	if (!questionOrderObj) console.log("still don't have a order obj");
 	return questionOrderObj;
 }
 function generateQuestionOrdering() {
@@ -189,7 +188,6 @@ function generateQuestionOrdering() {
 		var questionKeys = getArrayKeys(questionGroups[groupKeys[i]].questions);
 		questionKeys = shuffle(questionKeys);
 		while (questionGroups[groupKeys[i]].questions[questionKeys[0]].needPreviousQuestion) {
-			console.log("needs previous question!");
 			questionKeys = shuffle(questionKeys);
 		}
 		groupObject.questions = questionKeys;
