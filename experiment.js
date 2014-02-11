@@ -126,6 +126,17 @@ var questions = [
 			$("#answer").append("<h3>Answer</h3><input type='text'></input>");
 		},
 		answerGetVal: function() {
+			return $("#answer").find("input").text();
+		},
+		iframeLink: yasguiUrl
+	},
+	{
+		title: "Exercise 5",
+		question: "Provide a list of -triples-, where you extend information about the VU University, with information about this IWA course.",
+		displayHook: function() {
+			$("#answer").append("<h3>Answer</h3><textarea style='width: 100%; height: 200px;'></textarea>");
+		},
+		answerGetVal: function() {
 			return $("#answer").find("textarea").val();
 		},
 		iframeLink: yasguiUrl
