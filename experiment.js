@@ -1,5 +1,6 @@
 var loggerUrl = "logger.php";
 var yasguiUrl = "http://doc.metalex.eu:8080/yasgui/?experiment=1";
+var yasguiMultiEndpointUrl = "http://doc.metalex.eu:8080/yasguiMulti/?experiment=1";
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
              .toString(16)
@@ -220,7 +221,7 @@ var questionGroups = [
 			answerGetVal: function() {
 				return $("#answer").find("textarea").val();
 			},
-			iframeLink: yasguiUrl + '&jsonSettings=%7B%0A"enabledFeatures"%3A+%7B%0A"endpointSelection"%3A+true%0A%7D%0A%7D'
+			iframeLink: yasguiMultiEndpointUrl
   		    }
 	    ]
   	},
